@@ -394,38 +394,15 @@ public class RNSoundModule extends ReactContextBaseJavaModule implements AudioMa
     }
   }
 
-  public double getNoiseLevel()
-  {
-    //Log.d("SPLService", "getNoiseLevel() ");
-    int x = recorder.getMaxAmplitude();
-    double x2 = x;
-    Log.d("SPLService", "x="+x);
-    double db = (20 * Math.log10(x2 / 0.1));
-    //Log.d("SPLService", "db="+db);
-    if(db>0)
-    {
-      return db;
-    }
-    else
-    {
-      return 0;
-    }
-  }
-
-  private void startTimer(){
-    timer = new Timer();
-    timer.scheduleAtFixedRate(new TimerTask() {
-      @Override
-      public void run() {
-        if (!isPaused) {
-          WritableMap body = Arguments.createMap();
-          body.putDouble("currentTime", stopWatch.getTimeSeconds());
-          body.putDouble("currentMetering", getNoiseLevel());
-          sendEvent("recordingProgress", body);
-        }
-      }
-    }, 0, 100);
-  }
+  @ReactMethod
+   public void getCurrentTime(final Double key, final Callback callback) {
+     MediaPlayer player = this.playerPool.get(key);
+     if (player == null) {
+       callback.invoke(-1, false);
+       return;
+     }
+     callback.invoke(player.getCurrentPosition() * .001, player.isPlaying());
+   }
 
   //turn speaker on
   @ReactMethod
