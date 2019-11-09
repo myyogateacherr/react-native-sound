@@ -339,10 +339,13 @@ RCT_EXPORT_METHOD(getCurrentTime
                   : (nonnull NSNumber *)key withCallback
                   : (RCTResponseSenderBlock)callback) {
     AVAudioPlayer *player = [self playerForKey:key];
+    [player setMeteringEnabled:YES];
+    [player updateMeters];
+    
     if (player) {
         callback([NSArray
             arrayWithObjects:[NSNumber numberWithDouble:player.currentTime],
-                             [NSNumber numberWithBool:player.isPlaying], nil]);
+                  [NSNumber numberWithBool:player.isPlaying],@{@"peakPowerForChannel" :[NSNumber numberWithInteger:[player peakPowerForChannel:key.integerValue]],@"averagePowerForChannel": [NSNumber numberWithFloat:[player averagePowerForChanandroidnel:key.integerValue]]}, nil]);
     } else {
         callback([NSArray arrayWithObjects:[NSNumber numberWithInteger:-1],
                                            [NSNumber numberWithBool:NO], nil]);
