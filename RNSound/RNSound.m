@@ -345,7 +345,7 @@ RCT_EXPORT_METHOD(getCurrentTime
     if (player) {
         callback([NSArray
             arrayWithObjects:[NSNumber numberWithDouble:player.currentTime],
-                  [NSNumber numberWithBool:player.isPlaying],@{@"peakPowerForChannel" :[NSNumber numberWithInteger:[player peakPowerForChannel:key.integerValue]],@"averagePowerForChannel": [NSNumber numberWithFloat:[player averagePowerForChanandroidnel:key.integerValue]]}, nil]);
+                  [NSNumber numberWithBool:player.isPlaying],@{@"peakPowerForChannel" :[NSNumber numberWithInteger:[player peakPowerForChannel:0]],@"averagePowerForChannel": [NSNumber numberWithFloat:[player averagePowerForChannel:0]]}, nil]);
     } else {
         callback([NSArray arrayWithObjects:[NSNumber numberWithInteger:-1],
                                            [NSNumber numberWithBool:NO], nil]);
